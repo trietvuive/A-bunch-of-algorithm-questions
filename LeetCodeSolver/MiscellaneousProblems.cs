@@ -4,6 +4,7 @@ namespace LeetCodeSolver
 {
     class MiscellaneousProblems
     {
+        //Name:
         public int canCompleteCircuit(int[] gas, int[] cost)
         {
             int total = 0;
