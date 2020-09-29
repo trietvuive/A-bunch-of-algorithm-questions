@@ -172,6 +172,43 @@ namespace LeetCodeSolver
             }
             return true;
         }
+        //Name: Word Break
+        
+        //Description: Given a string and a list of words, determine if the string can be form by the list of words
+        //The words in the list can be used multiple times
+
+        //Approach: We observed that a string "abcdef" can be broken to "abc" and "def". If both "abc" and "def" is in the list, "abcdef" can be constructed
+        //Then, this is a dynamic programming that break the problems into subproblems
+        //Create a boolean array to record whether str[0:x] can be constructed. Start at length 0, which is true.
+        //Attempt to partition it at 0...x. If dp[j] == true and str[j:x] is in the list, str[0:x] can be constructed
+        //Construct the array from 0 to s.len. Return dp[-1]
+
+        //Analysis:
+        //Time: O(n^2), n as length of string. We run O(n) to build the bool array and partition the substring at all index to determine bool at certain index
+        //Space: O(max(n,k)). We use a set that contains all string in wordDict with length k for faster search and a dp array with length n.
+        
+        //Edge cases: None
+
+        public bool WordBreak(string s, IList<string> wordDict)
+        {
+            bool[] dp = new bool[s.Length + 1];
+            HashSet<string> set = new HashSet<string>();
+            foreach (string i in wordDict)
+                set.Add(i);
+            dp[0] = true;
+            for(int len = 1;len<s.Length;len++)
+            {
+                for(int i = 0;i<len;i++)
+                {
+                    if (dp[i] && set.Contains(s.Substring(i, len-i)))
+                    {
+                        dp[len] = true;
+                        break;
+                    }
+                }
+            }
+            return dp[s.Length];
+        }
 
     }
 }
