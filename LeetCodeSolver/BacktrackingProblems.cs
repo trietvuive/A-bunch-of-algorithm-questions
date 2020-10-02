@@ -162,5 +162,55 @@ namespace LeetCodeSolver
             grid[y][x] = 0;
             return paths;
         }
+        //Name: Combination Sum
+
+        //Given a list of number f and a target, return all the list that can be formed by f that add up to target
+        //numbers within f can be repeated
+
+        //Approach: This is a backtracking problems with no duplicates. 
+        //Backtracking includes adding to an array, recursive call, and removing it from the array.
+        //Sort it for optimization. Optimization shown in the backtracking method.
+        //Clear candidates of duplicates to remove duplicates in the ret
+        //Keep track of the current index and start the while loop from there to ensure that all lists in ret are sorted and not duplicates
+        //ignore if sum < 0, add if sum == 0
+
+        //Analysis:
+        //Time: O(n^k). k = maxlen of forming. Every time we have n selections (because you can use number twice) for 1 numbers
+        //so choosing maxlen of forming would take n^maxlen. Obviously we optimized it by not consider < 0 and sorting it,
+        //but this doesn't decrease how fast the algorithm grows
+        //Space: O(max(n,k)), k = maxlen of forming. The algorithm used a list to store all the candidates and another list to keep track of recursion
+        //The call stack's maximum depth is k. It will return before it considers the next selection.
+
+        //Edge cases: None.
+        public IList<IList<int>> CombinationSum(int[] candidates, int target)
+        {
+            List<IList<int>> ret = new List<IList<int>>();
+            List<int> cands = candidates.ToList();
+            cands.Sort();
+            cands = cands.Distinct().ToList();
+            List<int> forming = new List<int>();
+            combinationBacktracking(target, ret, cands, forming, 0);
+
+            return ret;
+        }
+        public void combinationBacktracking(int sum, List<IList<int>> ret, List<int> candidates, List<int> forming, int start)
+        {
+            if (sum < 0) return;
+            if (sum == 0)
+            {
+                ret.Add(new List<int>(forming));
+            }
+            int i = start;
+            //This is why we sort the array
+            //When sum-candidates[i] < 0, while loop breaks and return 
+            //We don't examine the rest because the rest will be bigger than candidates[i]
+            while (i < candidates.Count() && sum - candidates[i] >= 0)
+            {
+                forming.Add(candidates[i]);
+                combinationBacktracking(sum - candidates[i], ret, candidates, forming, i);
+                forming.RemoveAt(forming.Count() - 1);
+                i++;
+            }
+        }
     }
 }
