@@ -48,6 +48,7 @@
     <Compile Include="BucketSortProblems.cs" />
     <Compile Include="CombinatoryProblems.cs" />
     <Compile Include="DynamicProgramming.cs" />
+    <Compile Include="GraphProblems.cs" />
     <Compile Include="MathProblems.cs" />
     <Compile Include="LinkedListProblems.cs" />
     <Compile Include="IntervalProblems.cs" />
