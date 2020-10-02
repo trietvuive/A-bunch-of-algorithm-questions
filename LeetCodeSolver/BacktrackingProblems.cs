@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LeetCodeSolver
@@ -189,14 +190,14 @@ namespace LeetCodeSolver
             cands.Sort();
             cands = cands.Distinct().ToList();
             List<int> forming = new List<int>();
-            combinationBacktracking(target, ret, cands, forming, 0);
+            combinationBacktracking(target, ret, cands,forming, 0);
 
             return ret;
         }
         public void combinationBacktracking(int sum, List<IList<int>> ret, List<int> candidates, List<int> forming, int start)
         {
             if (sum < 0) return;
-            if (sum == 0)
+            if(sum == 0)
             {
                 ret.Add(new List<int>(forming));
             }

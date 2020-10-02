@@ -118,5 +118,53 @@ namespace LeetCodeSolver
                 return 0;
             return (int)maxret;
         }
+        //Name: First Missing Positive
+
+        //Description: Given an unsorted integer array, find the smallest positive integer
+        //Use constant space and linear time
+
+        //Approach: Normally if we were given space, we would create a temporary boolean array and marked it
+        //Then we would scan that boolean array and find the first value that isn't in the list
+        //Since we have to use constant space, we can mark the array provided instead of the boolean array
+        //To do this, when we find a, marked nums[a] as negative
+        //Loop through nums again and find which one we didn't mark as negative. Return that index
+        //Note: The array can also have negative numbers. We need to exclude them, so dump them all on the left side
+
+        //Analysis:
+        //Time: O(n)
+        //Space: O(1)
+        
+        //Edge cases: Remember to absolute everything when calculating index. When mark index as negative, don't do *=-1 or it will become positive again
+        public int FirstMissingPositive(int[] nums)
+        {
+            int left = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] <= 0)
+                {
+                    int temp = nums[left];
+                    nums[left] = nums[i];
+                    nums[i] = temp;
+                    left++;
+                }
+            }
+            int limit = nums.Length - left;
+            for (int i = left; i < nums.Length; i++)
+            {
+                if (Math.Abs(nums[i]) <= limit)
+                {
+                    int index = left + Math.Abs(nums[i]) - 1;
+                    nums[index] = nums[index] < 0 ? nums[index] : -nums[index];
+                }
+            }
+            for (int i = left; i < nums.Length; i++)
+            {
+                if (nums[i] > 0)
+                {
+                    return i - left + 1;
+                }
+            }
+            return limit + 1;
+        }
     }
 }
