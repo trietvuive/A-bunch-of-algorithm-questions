@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Text;
 
 namespace LeetCodeSolver
 {
@@ -172,6 +175,65 @@ namespace LeetCodeSolver
             }
             return true;
         }
+        //Name: Remove Duplicate Letters
 
+        //Description: Given a string, remove all duplicates so that each character appears only once.
+        //Return the lexicographically smallest string that can be constructed.
+
+        //Approach: To get the smallest string, we need the smallest characters.
+        //However, if we greedily pick smallest characters, we might miss some characters that only appear once.
+        //Create a dictionary of characters and the index they were last seen in. 
+        //Find the smallest last seen index. Greedily pick the smallest characters before or at the last seen index.
+        //If there's a smaller characters before last seen index, take that characters. Remove that characters from map
+        //Append the characters, and start greedy again from the smaller character's index.
+        //This ensures that we greedy pick for the smallest string while not skipping over any character to maintain the order of string.
+
+        //Analysis:
+        //Time: O(kn), n = size of dictionary and k = size of alphabet. The max size of last seen is k and we iterate over s to greedy pick.
+        //Space: O(k), k = size of alphabet. Maximum size of last seen dictionary is k.
+
+        //Edge cases: String can be null or has length of 1. Quick return if it is.
+        public string RemoveDuplicateLetters(string s)
+        {
+            if (s == null || s.Length <= 1)
+                return s;
+            Dictionary<char, int> lastIndex = new Dictionary<char, int>();
+            for(int i = 0;i<s.Length;i++)
+            {
+                if (lastIndex.ContainsKey(s[i]))
+                    lastIndex[s[i]] = i;
+                else
+                    lastIndex.Add(s[i], i);
+            }
+            StringBuilder sb = new StringBuilder();
+            int start = 0;
+            int end = findSmallestIndex(lastIndex);
+            while(lastIndex.Count != 0)
+            {
+                char curr = (char)(173);
+                int index = 0;
+                for(int i = start;i<=end;i++)
+                {
+                    if(s[i]< curr && lastIndex.ContainsKey(s[i]))
+                    {
+                        curr = s[i];
+                        index = i;
+                    }
+                }
+                sb.Append(curr);
+                lastIndex.Remove(curr);
+                start = index+1;
+                end = findSmallestIndex(lastIndex);
+            }
+            return sb.ToString();
+
+        }
+        private int findSmallestIndex(Dictionary<char,int>countMap)
+        {
+            int min = Int32.MaxValue;
+            foreach (KeyValuePair<char, int> pair in countMap)
+                min = Math.Min(min, pair.Value);
+            return min;
+        }
     }
 }
