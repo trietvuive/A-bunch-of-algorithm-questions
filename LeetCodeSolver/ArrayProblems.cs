@@ -133,7 +133,7 @@ namespace LeetCodeSolver
         //Analysis:
         //Time: O(n)
         //Space: O(1)
-        
+
         //Edge cases: Remember to absolute everything when calculating index. When mark index as negative, don't do *=-1 or it will become positive again
         public int FirstMissingPositive(int[] nums)
         {

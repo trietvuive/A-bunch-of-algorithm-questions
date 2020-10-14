@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 
 namespace LeetCodeSolver
@@ -198,7 +197,7 @@ namespace LeetCodeSolver
             if (s == null || s.Length <= 1)
                 return s;
             Dictionary<char, int> lastIndex = new Dictionary<char, int>();
-            for(int i = 0;i<s.Length;i++)
+            for (int i = 0; i < s.Length; i++)
             {
                 if (lastIndex.ContainsKey(s[i]))
                     lastIndex[s[i]] = i;
@@ -208,13 +207,13 @@ namespace LeetCodeSolver
             StringBuilder sb = new StringBuilder();
             int start = 0;
             int end = findSmallestIndex(lastIndex);
-            while(lastIndex.Count != 0)
+            while (lastIndex.Count != 0)
             {
                 char curr = (char)(173);
                 int index = 0;
-                for(int i = start;i<=end;i++)
+                for (int i = start; i <= end; i++)
                 {
-                    if(s[i]< curr && lastIndex.ContainsKey(s[i]))
+                    if (s[i] < curr && lastIndex.ContainsKey(s[i]))
                     {
                         curr = s[i];
                         index = i;
@@ -222,13 +221,13 @@ namespace LeetCodeSolver
                 }
                 sb.Append(curr);
                 lastIndex.Remove(curr);
-                start = index+1;
+                start = index + 1;
                 end = findSmallestIndex(lastIndex);
             }
             return sb.ToString();
 
         }
-        private int findSmallestIndex(Dictionary<char,int>countMap)
+        private int findSmallestIndex(Dictionary<char, int> countMap)
         {
             int min = Int32.MaxValue;
             foreach (KeyValuePair<char, int> pair in countMap)
