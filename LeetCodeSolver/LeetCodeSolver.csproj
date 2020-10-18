@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="ArrayProblems.cs" />
     <Compile Include="BacktrackingProblems.cs" />
+    <Compile Include="BitProblems.cs" />
     <Compile Include="BucketSortProblems.cs" />
     <Compile Include="CombinatoryProblems.cs" />
     <Compile Include="DynamicProgramming.cs" />
