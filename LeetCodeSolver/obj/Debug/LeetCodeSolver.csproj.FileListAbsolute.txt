@@ -5,3 +5,10 @@ C:\Users\vomin\source\repos\LeetCodeSolver\LeetCodeSolver\obj\Debug\LeetCodeSolv
 C:\Users\vomin\source\repos\LeetCodeSolver\LeetCodeSolver\obj\Debug\LeetCodeSolver.csproj.CoreCompileInputs.cache
 C:\Users\vomin\source\repos\LeetCodeSolver\LeetCodeSolver\obj\Debug\LeetCodeSolver.exe
 C:\Users\vomin\source\repos\LeetCodeSolver\LeetCodeSolver\obj\Debug\LeetCodeSolver.pdb
+C:\Users\vomin\source\repos\LeetCode\LeetCodeSolver\bin\Debug\LeetCodeSolver.exe.config
+C:\Users\vomin\source\repos\LeetCode\LeetCodeSolver\bin\Debug\LeetCodeSolver.exe
+C:\Users\vomin\source\repos\LeetCode\LeetCodeSolver\bin\Debug\LeetCodeSolver.pdb
+C:\Users\vomin\source\repos\LeetCode\LeetCodeSolver\obj\Debug\LeetCodeSolver.csprojAssemblyReference.cache
+C:\Users\vomin\source\repos\LeetCode\LeetCodeSolver\obj\Debug\LeetCodeSolver.csproj.CoreCompileInputs.cache
+C:\Users\vomin\source\repos\LeetCode\LeetCodeSolver\obj\Debug\LeetCodeSolver.exe
+C:\Users\vomin\source\repos\LeetCode\LeetCodeSolver\obj\Debug\LeetCodeSolver.pdb
