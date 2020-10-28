@@ -66,7 +66,7 @@ namespace LeetCodeSolver
                     }
                 }
             }
-            return true ? dp[n - 1] == 1 : false;
+            return true ? dp[n] == 1 : false;
         }
         //Name: Best Time to Buy And Sell Stocks with K transactions
 

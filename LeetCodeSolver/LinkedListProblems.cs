@@ -165,5 +165,42 @@
             }
             return result;
         }
+        //Name: Linked List Cycle II
+
+        //Description: Given a linked list, return where the cycle begins. If no cycle, return -1
+
+        //Approach: We use rabbit-and-hare, a fast and slow pointer
+        //The fast pointer will travel 2x nodes while the slow pointer travel x nodes
+        //Let n be length of cycle, a as the index of cycle's start, x as # of node slow pointer goes
+        //2x = a+n+(x-a), x-a due to the fact that the fast pointer goes to node a after the end instead of node 0.
+        //x = n. If m is the length of the entire LL, m = n+b = x+b, with b = # of node from x to end of LL & beginning of cycle & # of node from head to beginning of cycle
+        //Have another pointer from head. Walk alongside slow pointer b nodes until 2 met. Return b.
+
+        //Analysis:
+        //Time: O(n). We goes x nodes, x<n, and we goes to the end & beginning of cycle.
+        //Space: O(1). There's no data structure used.
+
+        //Edge case: If there's no cycle, make sure the rabbit doesn't run into null node.
+        public ListNode DetectCycle(ListNode head)
+        {
+            ListNode rabbit = head;
+            ListNode hare = head;
+            ListNode seeker = head;
+            while(rabbit!= null && rabbit.next != null)
+            {
+                rabbit = rabbit.next.next;
+                hare = hare.next;
+                if(rabbit == hare)
+                {
+                    while(seeker!=hare)
+                    {
+                        seeker = seeker.next;
+                        hare = hare.next;
+                    }
+                    return seeker;
+                }
+            }
+            return null;
+        }
     }
 }
