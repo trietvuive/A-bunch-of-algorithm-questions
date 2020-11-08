@@ -1,4 +1,7 @@
-﻿namespace LeetCodeSolver
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace LeetCodeSolver
 {
     class ListNode
     {
@@ -70,7 +73,7 @@
         // Curr -> Prev(null) | Next
         // Prev -> null | Curr
 
-        // Prev -> null | Curr -> Next
+        // Prev -> null | Curr -> Next1V
         // Curr -> Prev -> null | Next
         // Prev -> i -> null | Next
         //Prev -> i -> null | Curr
@@ -201,6 +204,49 @@
                 }
             }
             return null;
+        }
+        //Name: Add Two Numbers II
+        
+        //Description: Add two numbers represented by a linked list. No reversing the linked list
+
+        //Approach: Add them to a stack as a way of reversing. Use 2 stacks for the 2 linked lists
+        //Pop element out and add them.
+        //Create a ListNode, set the current node to the new node's next, then set current to new node to go backward
+
+        //Analysis:
+        //Time: O(n+m), n, m = len(l1), len(l2)
+        //Space: O(m+n),  n, m = len(l1), len(l2)
+
+        //Edge cases: Watch if the result linked list is longer than m or n. Check if the new node val is 0; if true, return its next, if not return itself
+        public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        {
+            Stack<ListNode> s1 = new Stack<ListNode>();
+            Stack<ListNode> s2 = new Stack<ListNode>();
+            while (l1 != null)
+            {
+                s1.Push(l1);
+                l1 = l1.next;
+            }
+            while (l2 != null)
+            {
+                s2.Push(l2);
+                l2 = l2.next;
+            }
+            int sum = 0;
+            ListNode ret = new ListNode(0);
+            while (s1.Count() != 0 || s2.Count() != 0)
+            {
+                if (s1.Count() != 0)
+                    sum += s1.Pop().val;
+                if (s2.Count() != 0)
+                    sum += s2.Pop().val;
+                ret.val = sum % 10;
+                ListNode prev = new ListNode(sum / 10);
+                prev.next = ret;
+                ret = prev;
+                sum /= 10;
+            }
+            return ret.val == 0 ? ret.next : ret;
         }
     }
 }
