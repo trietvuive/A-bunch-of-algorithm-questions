@@ -213,5 +213,49 @@ namespace LeetCodeSolver
                 i++;
             }
         }
+        //Name: Permutations II
+        
+        //Description: Given a list of possibly duplicates integer, return all unique permutations
+
+        //Approach: Similar to permutation, except we have a HashSet to avoid swapping same value
+        //Permutation is a variation of backtracking.
+        //Let's say we have [1,2] and we're permutation 3 and 4. We will have [1,2,3,4] and [1,2,4,3] (swapping last 2)
+        //Then, we have [1] and we're permutation 2,3, and 4. We have [1,2,3,4], swap 2 and 3 to get [1,3,2,4], swap 2 and 4 to get [1,4,3,2] and 
+        //permutate similar to [1,2] and 3/4.
+        //Basically, imagined a fixed list on the left and we're permutating everything on the right. The permutation of the list would be when fixed list is at index 0.
+        
+        //Analysis:
+        //Time: O(n!). Call at start = 0 results in n call at start = 1, which results in n-1 call at start = 2,... until call = n
+        //Space: O(n). If we don't count the list of permutations, the only extra space we're using is the HashSet.
+        public IList<IList<int>> PermuteUnique(int[] nums)
+        {
+            List<IList<int>> perms = new List<IList<int>>();
+            helper(0, nums, perms);
+            return perms;
+        }
+        public void helper(int start, int[] nums, List<IList<int>> perms)
+        {
+            if (start == nums.Length)
+            {
+                List<int> perm = (from i in nums select i).ToList();
+                perms.Add(perm);
+            }
+            HashSet<int> dup = new HashSet<int>();
+            for (int i = start; i < nums.Length; i++)
+            {
+                if (dup.Contains(nums[i]))
+                    continue;
+                dup.Add(nums[i]);
+                swap(nums, i, start);
+                helper(start + 1, nums, perms);
+                swap(nums, i, start);
+            }
+        }
+        public void swap(int[] nums, int i, int j)
+        {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+        }
     }
 }
