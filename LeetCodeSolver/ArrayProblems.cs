@@ -166,5 +166,54 @@ namespace LeetCodeSolver
             }
             return limit + 1;
         }
-    }
+        //Name: Longest Mountain in Array
+        //Description: A mountain is a continuous subarray where A[0] < A[1] < A[2] <...A[i] > A{i+1] > A[i+2] >...A[A.Length-1]
+        //Note that i can be anywhere and doesn't have to be in the middle
+        //Find the largest mountain in an array
+
+        //Approach: As we traverse through the array, there are 3 scenarios:
+        //The next element is smaller than the current element. If we're building the down slope, great! len++
+        //If we're not building the down slope, scrap everything and start over with those 2 elements as the upward slope
+        //The next element is larger than the current element. This is great if we're building upward or downward slope. len++
+        //The next element is same as the current element. Scrap everything and start over.
+        //This greedy approach works because you cannot build a mountain between 2 failed mountain. Every mountain in the array is distinct from each other, hence allows for one pass.
+        //Remember to update max_len only when you have a mountain (i.e when you're building the downward slope) and not during construction
+
+        //Analysis:
+        //Time: O(n), n = length of A. This is one-pass.
+        //Space: O(1). There is no extra data structure used.
+
+        //Edge cases: The original prompt ask that the size of the mountain needs to be >= 3. This is unnecessary as all valid mountains's size >= 3.
+        //Remember to only update max_len when you have a mountain, not during construction of mountain.
+        public int LongestMountain(int[] A)
+        {
+            int state = 0;
+            int length = 1;
+            int max_len = 0;
+            for (int i = 0; i < A.Length - 1; i++)
+            {
+                if (A[i + 1] > A[i] && (state == 0 || state == 1))
+                {
+                    state = 1;
+                    length++;
+                }
+                else if (A[i + 1] < A[i] && (state == 1 || state == 2))
+                {
+                    state = 2;
+                    length++;
+                    max_len = Math.Max(max_len, length);
+                }
+                else if (A[i + 1] > A[i] && state == 2)
+                {
+                    state = 1;
+                    length = 2;
+                }
+                else
+                {
+                    state = 0;
+                    length = 1;
+                }
+            }
+            return max_len;
+        }
 }
