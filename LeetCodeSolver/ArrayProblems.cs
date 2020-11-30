@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LeetCodeSolver
 {
@@ -50,6 +52,68 @@ namespace LeetCodeSolver
                     else
                         //target between [first,mid)
                         last = mid - 1;
+                }
+            }
+            return -1;
+        }
+        //Name: Search in Rotated Sorted Array (Arrays w/ duplicates)
+
+        //Description: Same as Search in Rotated Sorted Array, except array can contains duplicates
+
+        //Approach: Same as above, except there's cases where left == mid == right and we can't determine where mid is relative to the pivot.
+        //In that case, we just have to exclude those 2 elements by increment left and decrement right
+        //This will results in O(n) worst case where an array is full of duplicates and doesn't contain target.
+
+        //Analysis:
+        //Time: O(n), Theta(log n). Same as above, except there's a worst case of O(n).
+        //Space: O(1). We didn't use any extra data structure
+
+        //Edge cases: If you continue to search after exclude first and last, there are cases where first == last which results in OOB.
+        public int SearchDuplicates(int[] nums, int target)
+        {
+            int first = 0;
+            int last = nums.Length - 1;
+            while (first <= last)
+            {
+                int mid = first + (last - first) / 2;
+                if (nums[mid] == target)
+                    return mid;
+                //if there's a series of duplicates, we cannot determine the pivot is left or right
+                //[3,1,2,3,3,3,3] is the same as [3,3,3,3,1,2,3]
+                if (nums[first] == nums[mid] && nums[mid] == nums[last])
+                {
+                    first++;
+                    last--;
+                    continue;
+                    //continue to avoid case where first == last == end/beginning, thus OOB.
+                }
+                //mid pointer left of pivot, in larger partition
+                if (nums[first] <= nums[mid])
+                {
+                    if (nums[first] <= target && target < nums[mid])
+                    //target in [first,mid)
+                    {
+                        last = mid - 1;
+                    }
+                    else
+                    //target in (mid,last]
+                    {
+                        first = mid + 1;
+                    }
+                }
+                else
+                //mid pointer right of pivot, in smaller partition
+                {
+                    if (nums[mid] < target && target <= nums[last])
+                    //if target in (mid,last]
+                    {
+                        first = mid + 1;
+                    }
+                    //if target in [first,mid)
+                    else
+                    {
+                        last = mid - 1;
+                    }
                 }
             }
             return -1;
@@ -216,4 +280,38 @@ namespace LeetCodeSolver
             }
             return max_len;
         }
+        //Name: Jump Game III
+        
+        //Description: Given an array (non-negative), you start at start. You can jump to start + arr[start] or start-arr[start]
+        //You have infinite number of jumps. Return if you can encounter a value of 0
+
+        //Approach: Either DFS or BFS with Stack or Queue
+        //DFS, you pop from the stack and push the 2 squares you can jump to (if not out of bound). Mark the square you just pop as visited
+        //so you don't visit them again
+        //Return true if encounter 0. Return false when the queue/stack runs out of value (i.e visit all possible square without encountering 0)
+
+        //Analysis:
+        //Time: O(n). We can only land on at most n squares since we don't visit square twice.
+        //Space: O(n). The stack/queue can contains n element if we can visit all square without backtracking.
+
+        //Edge cases: None
+        public bool CanReach(int[] arr, int start)
+        {
+            Stack<int> stackIndex = new Stack<int>();
+            bool[] visited = new bool[arr.Length];
+            stackIndex.Push(start);
+            while(stackIndex.Count() != 0)
+            {
+                int idx = stackIndex.Pop();
+                if (arr[idx] == 0)
+                    return true;
+                if(idx+arr[idx]<arr.Length && !(visited[idx+arr[idx]]))
+                    stackIndex.Push(idx + arr[idx]);
+                if (idx - arr[idx] > -1 && !(visited[idx - arr[idx]]))
+                    stackIndex.Push(idx - arr[idx]);
+                visited[idx] = true;
+            }
+            return false;
+        }
+    }
 }
