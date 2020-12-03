@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LeetCodeSolver
@@ -247,6 +248,38 @@ namespace LeetCodeSolver
                 sum /= 10;
             }
             return ret.val == 0 ? ret.next : ret;
+        }
+        //Name: Linked List Random Node
+
+        //Description: Given a linked list, return a random node. Each node must have the same probability of getting picked
+
+        //Approach: This approach used reservoir sampling
+        //First node is picked by default. Second node can be picked over first node with 1/2 prob, third over second with 1/3, fourth over third with 1/4,....
+        //Last node would be examine last and would get return with probability of 1/n.
+        //First node would get return if no other node got picked (i.e 1/2*2/3*3/4*4/5*...(n-1)/n), which is also 1/n
+        //Second node would get return if it got picked (1/2) no other node after it got picked (2/3*3/4*...(n-1)/n)
+        //We can guarantee each node with 1/n probability using this method and we only traverse through it once =)
+
+        //Analysis:
+        //Time: O(n), we traverse through the linkedlist once
+        //Space: O(1), we didn't use any extra data structure to store the linked list.
+
+        //Edge cases: This code was programmed under the assumption that head wouldn't be null. Rmb to catch that case.
+        public int GetRandom(ListNode head)
+        {
+            int result = head.val;
+            ListNode current = head;
+            int i = 1;
+            while (current != null)
+            {
+                if (new Random().Next() % i == 0)
+                {
+                    result = current.val;
+                }
+                current = current.next;
+                i++;
+            }
+            return result;
         }
     }
 }
