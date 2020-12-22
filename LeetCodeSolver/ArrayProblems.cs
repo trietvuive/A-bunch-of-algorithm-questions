@@ -281,7 +281,7 @@ namespace LeetCodeSolver
             return max_len;
         }
         //Name: Jump Game III
-        
+
         //Description: Given an array (non-negative), you start at start. You can jump to start + arr[start] or start-arr[start]
         //You have infinite number of jumps. Return if you can encounter a value of 0
 
@@ -300,12 +300,12 @@ namespace LeetCodeSolver
             Stack<int> stackIndex = new Stack<int>();
             bool[] visited = new bool[arr.Length];
             stackIndex.Push(start);
-            while(stackIndex.Count() != 0)
+            while (stackIndex.Count() != 0)
             {
                 int idx = stackIndex.Pop();
                 if (arr[idx] == 0)
                     return true;
-                if(idx+arr[idx]<arr.Length && !(visited[idx+arr[idx]]))
+                if (idx + arr[idx] < arr.Length && !(visited[idx + arr[idx]]))
                     stackIndex.Push(idx + arr[idx]);
                 if (idx - arr[idx] > -1 && !(visited[idx - arr[idx]]))
                     stackIndex.Push(idx - arr[idx]);
@@ -313,16 +313,47 @@ namespace LeetCodeSolver
             }
             return false;
         }
+        //Name: Smallest Range II
+
+        //Description: Given an array and an integer K, you must either add or subtract K to every element on the array
+        //Out of all possible configurations, pick a configuration so that the difference between the min and max of the array is as small as possible
+        //return this difference
+
+
+        //Approach:
+        //Sort the array.
+        //We pick a pivot so that we will add K to everything on the left of the pivot (inclusive) and subtract K from everything on the right of the pivot
+        //The default pivot is at -1 (i.e we just subtract K to everything) - max-min here will be the same as A[n-1]-A[0]
+        //We then pick pivot at 1, then at 2, then at 3,... until n-2. Picking pivot at n-1 will have the same result as picking the pivot at -1
+        //At every pivot, get the new min & max and compare max-min to the prev max-min.
+        //Profit!
+        //The following code is greatly condensed to eliminate all unnecessary steps, so it might look kinda confusing.
+        //Comment is made to restore the step we didn't take and why it's unnecessary.
+
+        //Also, to not subtract and add k to every element at every pivot, we can just subtract K from everything after the array is sorted
+        //and then add 2K to the element that we want to be +K.
+        //however, notice that this step will not change max-min. Then, we can just keep the same array after sorting it.
+        
+        //Analysis:
+        //Time: O(n log n). Sorting is n log n. There is a solution without sorting in linear time
+        //Space: O(1). We didn't use any extra space.
+
+        //Edge cases: Should be none
         public int SmallestRangeII(int[]A,int K)
         {
             Array.Sort(A);
             int n = A.Length;
             int min = A[0];
             int max = A[n - 1];
+            //Default pivot at -1; when we just subtract k from everyone.
             int minDiff = max - min;
             for(int i = 0;i<n-1;i++)
             {
+                //picking a pivot at i. everything before i (inclusive) will be +k, everything after i will be -k.
+
+                //min = Math.Min(A[i]+2*K, A[0]+2*K); This step is unnecessary because the array is sorted, so A[0]+2*K < A[i]+2*K
                 min = Math.Min(A[i + 1], A[0] + 2 * K);
+                //max = Math.Max(A[i],A[n-1]); again, unneecssary because the array is sorted.
                 max = Math.Max(A[n - 1], A[i] + 2 * K);
                 minDiff = Math.Min(minDiff, max - min);
             }
