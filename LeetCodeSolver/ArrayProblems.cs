@@ -313,5 +313,20 @@ namespace LeetCodeSolver
             }
             return false;
         }
+        public int SmallestRangeII(int[]A,int K)
+        {
+            Array.Sort(A);
+            int n = A.Length;
+            int min = A[0];
+            int max = A[n - 1];
+            int minDiff = max - min;
+            for(int i = 0;i<n-1;i++)
+            {
+                min = Math.Min(A[i + 1], A[0] + 2 * K);
+                max = Math.Max(A[n - 1], A[i] + 2 * K);
+                minDiff = Math.Min(minDiff, max - min);
+            }
+            return minDiff;
+        }
     }
 }
